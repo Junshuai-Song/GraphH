@@ -1,0 +1,54 @@
+为GraphH框架添加新算法：
+
+1. 物理设计：
+	不变;
+	在src/tableudf/目录下有pagerank_data.sql测试数据
+2. GraphH驱动控制器
+	拷贝src/coordinator/coordinator.sql
+	更改其中：
+	（1）第3行函数名：graphh_pagerank
+	（2）第16行调用tableudf名：v_tableudf := 'pagerank_tableudf';
+	（3）第18行产生msg的表名：vertexSendMsg := 'vertex';
+3. 表函数
+	进入目录src/tableudf/
+	修改makefile文件中MODULES属性等于pagerank_tableud
+	复制shortpath_tableudf --> pagerank_tableudf
+	修改其中：
+	（1）第13行：tableudf函数声明PG_FUNCTION_INFO_V1(pagerank_tableudf);
+	（2）第154行：compute函数体中的内容，依据pagerank算法设计（如pagerank_tableudf.c文件中所示）
+	（3）第170行：tableudf函数名称pagerank_tableudf
+	执行make
+	执行make install，查看dos提示安装路径INSTALL_PATH
+	在数据库中执行：
+		CREATE OR REPLACE FUNCTION graphh_state(TEXT, TEXT)
+		RETURNS TEXT AS
+		INSTALL_PATH, 'graphh_state'
+		LANGUAGE c ;
+
+		CREATE OR REPLACE FUNCTION graphh_merge(TEXT, TEXT)
+		RETURNS TEXT AS
+		INSTALL_PATH, 'graphh_merge'	
+		LANGUAGE c ;
+
+		CREATE AGGREGATE graphh_append(TEXT)
+		(
+			sfunc = graphh_state,
+			prefunc = graphh_merge,
+			stype = text,
+			INITCOND = ''
+		);
+
+		CREATE OR REPLACE FUNCTION pagerank_tableudf(int, graphh_value,TEXT)
+		RETURNS setof vertex_ AS
+		INSTALL_PATH, 'pagerank_tableudf'
+		LANGUAGE c STRICT;
+	注意其中INSTALL_PATH路径，会在执行make install命令之后，在dos界面上显示出来，这和你HAWQ数据库的配置有关。
+	更多在HAWQ中创建C-Language函数的信息请参考PostgreSQL官方文档。
+4. 运行测试：
+	在数据库中运行：select graphh_pagerank(30); 
+	select *from vertex; 观察运行结果，可以尝试加上order by来更加清晰地查看结果
+	
+	
+	
+	
+	

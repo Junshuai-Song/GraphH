@@ -8,7 +8,6 @@
 	更改其中：
 	（1）第3行函数名：graphh_pagerank
 	（2）第16行调用tableudf名：v_tableudf := 'pagerank_tableudf';
-	（3）第18行产生msg的表名：vertexSendMsg := 'vertex';
 3. 表函数
 	进入目录src/tableudf/
 	修改makefile文件中MODULES属性等于pagerank_tableud

@@ -15,7 +15,7 @@ begin
 	-- 表示需要调用的tableudf的名称
 	v_tableudf := 'shortpath' || '_tableudf';	
 	--用户指定使用哪张表来发送消息，含v_update表与vertex两种选择
-	vertexSendMsg := 'v_update';	
+	vertexSendMsg := 'vertex';	
 	
 	v_number := 1;
 	while v_number <= iter loop

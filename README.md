@@ -14,5 +14,10 @@ For installation guides, please see the GraphH_Install file.
 
 For contribution guides, please see the GraphH_Contribution file.
 
-# NOTE
+# Note
 This open-source library is based on HAWQ.
+
+# Hope
+Hope friends with common intrests together to enrich this framwork.
+
+If you have any questions, please contact me. Thanks. 

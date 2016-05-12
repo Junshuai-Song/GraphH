@@ -43,7 +43,10 @@
 		LANGUAGE c STRICT;
 	注意其中INSTALL_PATH路径，会在执行make install命令之后，在dos界面上显示出来，这和你HAWQ数据库的配置有关。
 	更多在HAWQ中创建C-Language函数的信息请参考PostgreSQL官方文档。
-4. 运行测试：
+4. 更改Compute函数
+	类似Pregel以顶点为中心的计算模型。
+	（在以后我们希望考虑将以上1-3步尽可能简化，使得用户尽可能更改少量配置，编辑Compute函数即可完成相应算法）
+5. 运行测试：
 	在数据库中运行：select graphh_pagerank(30); 
 	select *from vertex; 观察运行结果，可以尝试加上order by来更加清晰地查看结果
 	
